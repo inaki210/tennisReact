@@ -7,7 +7,7 @@ interface Props {
     game: Juego;
     numeroJugador: number;
     onPrint: (cadena: string) => void;
-    onChange: ( nombre: string ) => void;
+    onChange: (nombre: string) => void;
 }
 
 class DivJugadores extends React.Component<Props> {

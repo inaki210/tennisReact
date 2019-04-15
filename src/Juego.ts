@@ -11,18 +11,38 @@ export class Juego {
     public ganador:Jugador | null;
 
 	constructor(nombre1:string, nombre2:string) {
+        if (nombre1 === null || nombre1 === '') {
+            nombre1 = 'Jugador1';
+        }
+        if (nombre2 === null || nombre2 === '') {
+            nombre2 = 'Jugador2';
+        }
         this.j1 = new Jugador(nombre1);
         this.j2 = new Jugador(nombre2);
         this.ganador = null;
     }
     
+    public getNombreJugador(numJugador:number):string {
+        if (numJugador == 1) {
+            return this.j1.getNombre();
+        }
+        return this.j2.getNombre();
+    }
+
+    public setNombreJugador(numJugador:number, nuevoNombre:string) {
+        if (numJugador == 1) {
+            this.j1.setNombre(nuevoNombre);
+        }
+        else {
+            this.j2.setNombre(nuevoNombre);
+        }
+    }
+
     public getJugador(numJugador:number) :Jugador {
         if (numJugador == 1) {
             return this.j1;
         }
-        //else if (numJugador == 2) {
-            return this.j2;
-        //}
+        return this.j2;
     }
 
     public wonPoint(PJ:Jugador) {

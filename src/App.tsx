@@ -2,7 +2,6 @@ import React from 'react';
 import Juego from './Juego';
 import DivJugadores from './DivJugadores';
 import './estilos.scss';
-import { string } from 'prop-types';
 
 
 interface State {
@@ -16,8 +15,8 @@ class App extends React.Component<{}, State> {
 
   state: State = { 
     onGame: false, 
-    nombre1: 'J1',
-    nombre2: 'J2',
+    nombre1: '',
+    nombre2: '',
     cadena: "<p>love-love</p>"
   };
 
@@ -26,23 +25,13 @@ class App extends React.Component<{}, State> {
 
   iniciarApp = () => {
     if (!this.state.onGame) {
-
+      // Se crea el Juego y los Jugadores con un nombre por defecto en caso de que estén vacíos. 
       let nom1:string;
       let nom2:string;
       nom1 = '';  //texto del DivJugadores
       nom2 = '';
 
-      if (this.state.nombre1 === null || this.state.nombre1 === "") {
-        this.setState({ nombre1: 'Jugador1' });
-      }
-      if (this.state.nombre2 === null || this.state.nombre2 === "") {
-        this.setState({ nombre2: 'Jugador2' });
-      }
-      
-
       this.partida = new Juego(nom1, nom2);
-
-      this.setState({ cadena: "<p>love-love</p>" });
     }
 
     this.setState({ onGame: !this.state.onGame });
@@ -50,10 +39,6 @@ class App extends React.Component<{}, State> {
  
   render() {
 
-    let textoBoton:string = "Play!";
-    if (this.state.onGame) {
-      textoBoton = "New Game";
-    }
 
     return (
       <div className="position-relative display-flex-row justify-content-center color-fondo--azul-claro">
@@ -81,7 +66,7 @@ class App extends React.Component<{}, State> {
 
           </div>
           <div className="display-flex-row justify-content-center">
-            <button className="width-medium" onClick={this.iniciarApp}>{textoBoton}</button>
+            <button className="width-medium" onClick={this.iniciarApp}>{this.state.onGame ? ('New Game') : ('Play!')}</button>
           </div>
         </div>
       </div>
@@ -94,18 +79,12 @@ class App extends React.Component<{}, State> {
   }
 
   setNombre1 = (nombre: string) => {
-    this.partida.getJugador(1).setNombre(nombre);
+    this.partida.setNombreJugador(1, nombre);
     console.log(this.partida);
-    this.setPartida(this.partida);
   }
 
   setNombre2 = (nombre: string) => {
-    this.partida.getJugador(2).setNombre(nombre);
-    this.setPartida(this.partida);
-  }
-
-  setPartida = (nuevaPartida: Juego) => {
-    this.partida = nuevaPartida;
+    this.partida.setNombreJugador(2, nombre);
   }
 
 }
