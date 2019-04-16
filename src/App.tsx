@@ -6,21 +6,23 @@ import './estilos.scss';
 
 interface State {
   onGame: boolean;
-  nombre1: string;
-  nombre2: string;
+  //nombre1: string;
+  //nombre2: string;
   cadena: string;
+  partida:Juego;
 }
 
 class App extends React.Component<{}, State> {
 
   state: State = { 
     onGame: false, 
-    nombre1: '',
-    nombre2: '',
-    cadena: "<p>love-love</p>"
+    //nombre1: '',
+    //nombre2: '',
+    cadena: '',
+    partida: new Juego('', '')
   };
 
-  partida :Juego = new Juego(this.state.nombre1, this.state.nombre2);
+  //partida :Juego = new Juego(this.state.nombre1, this.state.nombre2);
 
 
   iniciarApp = () => {
@@ -28,10 +30,11 @@ class App extends React.Component<{}, State> {
       // Se crea el Juego y los Jugadores con un nombre por defecto en caso de que estén vacíos. 
       let nom1:string;
       let nom2:string;
-      nom1 = '';  //texto del DivJugadores
-      nom2 = '';
+      nom1 = this.state.partida.getNombreJugador(1);  //texto del DivJugadores
+      nom2 = this.state.partida.getNombreJugador(2);
 
-      this.partida = new Juego(nom1, nom2);
+      this.setState({partida: new Juego(nom1, nom2)});
+      this.resetResultados();
     }
 
     this.setState({ onGame: !this.state.onGame });
@@ -41,29 +44,31 @@ class App extends React.Component<{}, State> {
 
 
     return (
-      <div className="position-relative display-flex-row justify-content-center color-fondo--azul-claro">
-        <div className="position-absolute display-flex-column justify-content-center align-items-center margin-top-10-percent">
+      <div className="vh-100 display-flex-row justify-content-center color-fondo--azul-claro">
+        <div className="display-flex-column justify-content-center align-items-center margin-top-10-percent">
           <div className="display-flex-row justify-content-center">
             <h1>TENNIS GAME</h1>
           </div>
           <div id="divJugadores" className="display-flex-row justify-content-space-around margin-vertical-small">
-            
+            { this.state.partida && 
             <DivJugadores 
               status={this.state.onGame}
-              game={this.partida}
+              game={this.state.partida}
               numeroJugador={1}
               onPrint={this.setResultados}
               onChange={this.setNombre1} />
-            
-            { this.state.onGame ? (<DivResultados resultados={this.state.cadena}></DivResultados>) : ("") }
-            
+            }
+
+            { this.state.onGame && (<DivResultados resultados={this.state.cadena}></DivResultados>) }
+
+            { this.state.partida && 
             <DivJugadores 
               status={this.state.onGame}
-              game={this.partida}
+              game={this.state.partida}
               numeroJugador={2}
               onPrint={this.setResultados}
               onChange={this.setNombre2} />
-
+            }
           </div>
           <div className="display-flex-row justify-content-center">
             <button className="width-medium" onClick={this.iniciarApp}>{this.state.onGame ? ('New Game') : ('Play!')}</button>
@@ -78,13 +83,18 @@ class App extends React.Component<{}, State> {
     this.setState({cadena: str + "<p>" + score + "</p>"});
   }
 
+  resetResultados = () => {
+    this.setState({cadena: '<p>love-love</p>'});
+  }
+
   setNombre1 = (nombre: string) => {
-    this.partida.setNombreJugador(1, nombre);
-    console.log(this.partida);
+    this.state.partida.setNombreJugador(1, nombre);
+    this.setState({partida: this.state.partida});
   }
 
   setNombre2 = (nombre: string) => {
-    this.partida.setNombreJugador(2, nombre);
+    this.state.partida.setNombreJugador(2, nombre);
+    this.setState({partida: this.state.partida});
   }
 
 }

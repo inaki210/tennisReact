@@ -6,6 +6,11 @@
     margin: 0;
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
 /*  --- estilos ---  */
 
 /*  Colores  */
@@ -16,6 +21,9 @@
 
 
 /*  Tamaños  */
+.vh-100 {
+    height: 100vh;
+}
 
 .width-medium {
     width: 6rem;

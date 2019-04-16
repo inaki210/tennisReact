@@ -14,20 +14,18 @@ class DivJugadores extends React.Component<Props> {
     
     resultadoCadena :string = '';
     state = {
-        nombreJugador: this.props.game.getJugador(this.props.numeroJugador).getNombre()
+        nombreJugador: this.props.game.getNombreJugador(this.props.numeroJugador)
     };
 
 
 
     onChange = (textoNuevo:string) => {
-        this.props.onChange(textoNuevo)
+        this.props.onChange(textoNuevo);
     }
 
     anotarPunto = (num:number) => {
-        if (this.props.game != null && this.props.game.ganador === null) {
-            this.props.game.wonPoint(this.props.game.getJugador(num));
-            this.imprimirResultado();
-        }
+        this.props.game.wonPoint(this.props.game.getJugador(num));
+        this.imprimirResultado();
     }
 
     imprimirResultado() {
@@ -35,35 +33,21 @@ class DivJugadores extends React.Component<Props> {
             this.props.onPrint(this.props.game.getScore());
         }
     }
-
-    mostrarNombre = ():string => {
-        /* alert("nombreJugador: " + this.state.nombreJugador); */
-        const { status, game, numeroJugador } = this.props;
-        if (status && game != null) {
-            if (game.getJugador(numeroJugador).getNombre() === '')
-            { 
-                game.getJugador(numeroJugador).setNombre(this.state.nombreJugador);
-            }
-        }
-        return game.getJugador(numeroJugador).getNombre()
-    }
-
-    
+   
     
     render() {
         const { status, numeroJugador } = this.props;
-        const textoJugador: string = "Player" + numeroJugador;
 
         return (
             <div className="margin-horizontal-small display-flex-column align-items-center">
                 <h4 id="lblPlayer">
-                    { status ? (this.mostrarNombre()) : (textoJugador) }
+                    { status ? (this.props.game.getNombreJugador(numeroJugador)) : ("Player" + numeroJugador) }
                 </h4>
                 { status ? (
-                    <button onClick={() => this.anotarPunto(numeroJugador)}>Won point</button>
+                    <button onClick={() => this.anotarPunto(numeroJugador)} disabled={!!this.props.game.ganador}>Won point</button>
                 ) : (
-                    <TxtJugador nombreJugador={this.state.nombreJugador} numero={numeroJugador} onChange={this.onChange} />) 
-                }
+                    <TxtJugador nombreJugador={this.props.game.getNombreJugador(numeroJugador)} numero={numeroJugador} onChange={this.onChange} />
+                )}
             </div>
         );
     }
