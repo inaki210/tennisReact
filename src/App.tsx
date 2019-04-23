@@ -1,25 +1,21 @@
 import React from 'react';
-import Juego from './Juego';
+import TennisGame from './TennisGame';
 import DivJugadores from './DivJugadores';
 import './estilos.scss';
 
 
 interface State {
   onGame: boolean;
-  //nombre1: string;
-  //nombre2: string;
   cadena: string;
-  partida:Juego;
+  partida:TennisGame;
 }
 
 class App extends React.Component<{}, State> {
 
   state: State = { 
-    onGame: false, 
-    //nombre1: '',
-    //nombre2: '',
+    onGame: false,
     cadena: '',
-    partida: new Juego('', '')
+    partida: new TennisGame('', '')
   };
 
   //partida :Juego = new Juego(this.state.nombre1, this.state.nombre2);
@@ -33,7 +29,7 @@ class App extends React.Component<{}, State> {
       nom1 = this.state.partida.getNombreJugador(1);  //texto del DivJugadores
       nom2 = this.state.partida.getNombreJugador(2);
 
-      this.setState({partida: new Juego(nom1, nom2)});
+      this.setState({partida: new TennisGame(nom1, nom2)});
       this.resetResultados();
     }
 

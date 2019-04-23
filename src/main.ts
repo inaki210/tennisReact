@@ -1,4 +1,4 @@
-import Juego from './Juego';
+import TennisGame from './TennisGame';
 /* 
  * Aplicación de Tennis
  * Crea la app Juego que creará los dos jugadores.
@@ -7,21 +7,21 @@ import Juego from './Juego';
  */
 export class Main {
 
-    public juego1:Juego;
+    public juego1:TennisGame;
     public resultadoCadena:string;
 
     constructor() {
-        this.juego1 = new Juego("","");
+        this.juego1 = new TennisGame("","");
         this.resultadoCadena = "";
     }
 
     public anotarPunto(num:number) {
         if (this.juego1 != null) {
             if (num == 1) {
-                this.juego1.wonPoint(this.juego1.getJugador(1));
+                this.juego1.wonPointOld(this.juego1.getJugador(1));
             }
             else if (num == 2) {
-                this.juego1.wonPoint(this.juego1.getJugador(2));
+                this.juego1.wonPointOld(this.juego1.getJugador(2));
             }
             else {
             }
@@ -67,7 +67,7 @@ export class Main {
             if (nombre2 == null || nombre2 == "") {
                 nombre2 = "Jugador2";
             }
-            this.juego1 = new Juego(nombre1, nombre2)
+            this.juego1 = new TennisGame(nombre1, nombre2)
 
 
             // resetea el resultado y comienza desde cero (love-love)

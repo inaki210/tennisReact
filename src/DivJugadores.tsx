@@ -1,10 +1,10 @@
 import React from 'react';
-import Juego from './Juego';
+import TennisGame from './TennisGame';
 import './estilos.scss';
 
 interface Props {
     status: boolean;
-    game: Juego;
+    game: TennisGame;
     numeroJugador: number;
     onPrint: (cadena: string) => void;
     onChange: (nombre: string) => void;
@@ -24,7 +24,7 @@ class DivJugadores extends React.Component<Props> {
     }
 
     anotarPunto = (num:number) => {
-        this.props.game.wonPoint(this.props.game.getJugador(num));
+        this.props.game.wonPointOld(this.props.game.getJugador(num));
         this.imprimirResultado();
     }
 
