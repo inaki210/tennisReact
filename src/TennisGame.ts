@@ -115,7 +115,23 @@ export class TennisGame {
     }
 
     public getScore():string {
-        return `${this.puntuacionJugador1} - ${this.puntuacionJugador2}` ;
+        if (this.ganador != null) {
+            return `Win ${this.ganador}!!!`;
+        }
+        else if (this.puntuacionJugador1 === this.puntuacionJugador2) {
+            if (this.puntuacionJugador1 === Puntuacion.deuce) {
+                return `Deuce`;
+            }
+            return `${Puntuacion[this.puntuacionJugador1]} All`;
+        }
+        else if (this.puntuacionJugador1 === Puntuacion.ventaja) {
+            return `Ventaja ${this.nombreJugador1}`;
+        }
+        else if (this.puntuacionJugador2 === Puntuacion.ventaja) {
+            return `Ventaja ${this.nombreJugador2}`;
+        }
+
+        return `${Puntuacion[this.puntuacionJugador1]} - ${Puntuacion[this.puntuacionJugador2]}` ;
     }
 }
 export default TennisGame;
