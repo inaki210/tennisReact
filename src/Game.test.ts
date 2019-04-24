@@ -90,7 +90,7 @@ describe('getScore', () => {
 
 
     // 15 - 30
-    it('cuando el jugador 2 ha marcado dos puntos el resultado es: fiveteen - thirty', () => {
+    it('cuando el jugador 1 ha marcado un punt y el jugador 2 dos puntos el resultado es: fiveteen - thirty', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(2).anota();
@@ -102,7 +102,7 @@ describe('getScore', () => {
     })
 
     // 15 - 40
-    it('cuando el jugador 2 ha marcado tres puntos el resultado es: fiveteen - forty', () => {
+    it('cuando el jugador 1 ha marcado un punto y el jugador 2 ha marcado tres puntos el resultado es: fiveteen - forty', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(2).anota();
@@ -115,7 +115,7 @@ describe('getScore', () => {
     })
 
     // 15 - Ganador
-    it('cuando el jugador 2 ha marcado cuatro puntos el resultado es: Win Jugador2!!!', () => {
+    it('cuando el jugador 1 ha marcado un punt y el jugador 2 ha marcado cuatro puntos el resultado es: Win Jugador2!!!', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(2).anota();
@@ -141,7 +141,7 @@ describe('getScore', () => {
         expect(score).toBe('thirty - love');
     })
     // 30 - 15
-    it('cuando el jugador 2 ha marcado el primer punto el resultado es: thirty - fiveteen', () => {
+    it('cuando el jugador 1 ha marcado dos puntos y el jugador 2 ha marcado el primer punto el resultado es: thirty - fiveteen', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(1).anota();
@@ -166,7 +166,7 @@ describe('getScore', () => {
     })
 
     // 30 - 40
-    it('cuando el jugador 2 ha marcado tres puntos el resultado es: thirty - forty', () => {
+    it('cuando el jugador 1 ha marcado dos puntos y el jugador 2 ha marcado tres puntos el resultado es: thirty - forty', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(1).anota();
@@ -180,7 +180,7 @@ describe('getScore', () => {
     })
 
     // 30 - Ganador
-    it('cuando el jugador 2 ha marcado cuatro puntos el resultado es: Win Jugador2!!!', () => {
+    it('cuando el jugador 1 ha marcado dos puntos y el jugador 2 ha marcado cuatro puntos el resultado es: Win Jugador2!!!', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(1).anota();
@@ -197,7 +197,7 @@ describe('getScore', () => {
 
     // Jugador1 = 40
 
-    // 40 - 15
+    // 40 - 0
     it('cuando el jugador 1 ha marcado tres puntos el resultado es: forty - love', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
@@ -209,7 +209,7 @@ describe('getScore', () => {
         expect(score).toBe('forty - love');
     })
     // 40 - 15
-    it('cuando el jugador 2 ha marcado el primer punto el resultado es: forty - fiveteen', () => {
+    it('cuando el jugador 1 ha marcado tres puntos y el jugador 2 ha marcado un punto el resultado es: forty - fiveteen', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(1).anota();
@@ -222,7 +222,7 @@ describe('getScore', () => {
     })
 
     // 40 - 30
-    it('cuando el jugador 2 ha marcado dos puntos el resultado es: forty - thirty', () => {
+    it('cuando el jugador 1 ha marcado tres puntos y el jugador 2 ha marcado dos puntos el resultado es: forty - thirty', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(1).anota();
@@ -251,7 +251,7 @@ describe('getScore', () => {
     })
 
     // 40 - Ventaja
-    it('cuando el jugador 2 ha marcado cuatro puntos el resultado es: Ventaja Jugador2', () => {
+    it('cuando el jugador 1 ha marcado tres puntos y el jugador 2 ha marcado cuatro puntos el resultado es: Ventaja Jugador2', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(1).anota();
@@ -267,7 +267,7 @@ describe('getScore', () => {
     })
 
     // 40 - Ganador
-    it('cuando el jugador 2 ha marcado cuatro puntos el resultado es: Win Jugador2!!!', () => {
+    it('cuando el jugador 1 ha marcado cuatro puntos y el jugador 2 ha marcado cinco el resultado es: Win Jugador2!!!', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(1).anota();
         game.getJugador(1).anota();
@@ -300,7 +300,7 @@ describe('getScore', () => {
     })
 
     // Ganador - 15
-    it('cuando el jugador 2 ha marcado el primer punto el resultado es: Win Jugador1!!!', () => {
+    it('cuando el jugador 1 ha marcado cuatro puntos y el jugador 2 ha marcado un punto el resultado es: Win Jugador1!!!', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(2).anota();
         game.getJugador(1).anota();
@@ -314,7 +314,7 @@ describe('getScore', () => {
     })
 
     // Ganador - 30
-    it('cuando el jugador 2 ha marcado dos puntos el resultado es: Win Jugador1!!!', () => {
+    it('cuando el jugador 1 ha marcado cuatro puntos y el jugador 2 ha marcado dos puntos el resultado es: Win Jugador1!!!', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(2).anota();
         game.getJugador(2).anota();
@@ -329,7 +329,7 @@ describe('getScore', () => {
     })
 
     // Ventaja - 40
-    it('cuando el jugador 1 tiene ventaja el resultado es: Ventaja Jugador1', () => {
+    it('cuando el jugador 1 ha marcado cuatro puntos y el jugador 2 ha marcado tres puntos el resultado es: Ventaja Jugador1', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(2).anota();
         game.getJugador(2).anota();
@@ -345,7 +345,7 @@ describe('getScore', () => {
     })
     
     // Ganador - 40
-    it('cuando el jugador 2 ha marcado tres puntos el resultado es: Win Jugador1!!!', () => {
+    it('cuando el jugador 1 ha marcado cinco puntos y el jugador 2 ha marcado tres puntos el resultado es: Win Jugador1!!!', () => {
         game = new TennisGame('Jugador1','Jugador2');
         game.getJugador(2).anota();
         game.getJugador(2).anota();
