@@ -1,5 +1,5 @@
 import React from 'react';
-import TennisGame from './TennisGame';
+import TennisGame from './TennisGameOld';
 import DivJugadores from './DivJugadores';
 import './estilos.scss';
 
