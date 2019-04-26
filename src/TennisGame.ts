@@ -24,7 +24,6 @@ export class TennisGame {
   private puntuacionJugador1: Puntuacion;
   private puntuacionJugador2: Puntuacion;
 
-
   constructor(nombreJugador1: string, nombreJugador2: string) {
     this.nombreJugador1 = nombreJugador1;
     this.nombreJugador2 = nombreJugador2;
@@ -39,26 +38,45 @@ export class TennisGame {
     return this.nombreJugador2;
   }
 
-  public wonPoint(nombreJugador: string) {
+  public wonPoint(nombreAnotador: string) {
     /* Precondiciones */
-    if (nombreJugador == null || nombreJugador === undefined) {
+    if (nombreAnotador == null || nombreAnotador === undefined) {
       return;
     }
 
-    if (nombreJugador === this.nombreJugador1) {
-        const resultado = this.wonPointJugador(this.puntuacionJugador1, this.puntuacionJugador2);
-        this.puntuacionJugador1 = resultado[0];
-        this.puntuacionJugador2 = resultado[1];
+    if (nombreAnotador === this.nombreJugador1) {
+      const {
+        puntuacionAnotador,
+        puntuacionOtroJugador
+      } = this.wonPointJugador({
+        puntuacionAnotador: this.puntuacionJugador1,
+        puntuacionOtroJugador: this.puntuacionJugador2
+      });
 
-    } else if (nombreJugador === this.nombreJugador2) {
-        const resultado = this.wonPointJugador(this.puntuacionJugador2, this.puntuacionJugador1);
-        this.puntuacionJugador2 = resultado[0];
-        this.puntuacionJugador1 = resultado[1];
+      this.puntuacionJugador1 = puntuacionAnotador;
+      this.puntuacionJugador2 = puntuacionOtroJugador;
+      
+    } else if (nombreAnotador === this.nombreJugador2) {
+      const {
+        puntuacionAnotador,
+        puntuacionOtroJugador
+      } = this.wonPointJugador({
+        puntuacionAnotador: this.puntuacionJugador2,
+        puntuacionOtroJugador: this.puntuacionJugador1
+      });
+
+      this.puntuacionJugador2 = puntuacionAnotador;
+      this.puntuacionJugador1 = puntuacionOtroJugador;
     }
   }
 
-  private wonPointJugador(puntuacionAnotador: Puntuacion, puntuacionOtroJugador: Puntuacion) {
-    
+  private wonPointJugador({
+    puntuacionAnotador,
+    puntuacionOtroJugador
+  }: {
+    puntuacionAnotador: Puntuacion;
+    puntuacionOtroJugador: Puntuacion;
+  }) {
     switch (puntuacionAnotador) {
       case Puntuacion.love:
         puntuacionAnotador = Puntuacion.fiveteen;
@@ -94,15 +112,15 @@ export class TennisGame {
         puntuacionAnotador = Puntuacion.winner;
         break;
     }
-    return [puntuacionAnotador, puntuacionOtroJugador];
+    return { puntuacionAnotador, puntuacionOtroJugador };
   }
 
   public getScore(): string {
     if (this.puntuacionJugador1 === Puntuacion.winner) {
-         return `Win ${this.nombreJugador1}!!!`;
+      return `Win ${this.nombreJugador1}!!!`;
     }
     if (this.puntuacionJugador2 === Puntuacion.winner) {
-        return `Win ${this.nombreJugador2}!!!`;
+      return `Win ${this.nombreJugador2}!!!`;
     }
 
     if (this.puntuacionJugador1 === this.puntuacionJugador2) {
