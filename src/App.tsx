@@ -1,108 +1,109 @@
 import React from 'react';
-import TennisGame from './TennisGameOld';
+import TennisGame from './TennisGame';
 import DivJugadores from './DivJugadores';
 import './estilos.scss';
 
 
 interface State {
-  onGame: boolean;
-  cadena: string;
-  partida:TennisGame;
+	enJuego: boolean;
+	cadena: string;
+	partida: TennisGame;
+	nombreJugador1: string;
+	nombreJugador2: string;
 }
 
 class App extends React.Component<{}, State> {
 
-  state: State = { 
-    onGame: false,
-    cadena: '',
-    partida: new TennisGame('', '')
-  };
-
-  //partida :Juego = new Juego(this.state.nombre1, this.state.nombre2);
-
-
-  iniciarApp = () => {
-    if (!this.state.onGame) {
-      // Se crea el Juego y los Jugadores con un nombre por defecto en caso de que estén vacíos. 
-      let nom1:string;
-      let nom2:string;
-      nom1 = this.state.partida.getNombreJugador(1);  //texto del DivJugadores
-      nom2 = this.state.partida.getNombreJugador(2);
-
-      this.setState({partida: new TennisGame(nom1, nom2)});
-      this.resetResultados();
-    }
-
-    this.setState({ onGame: !this.state.onGame });
-  }
- 
-  render() {
+	state: State = { 
+		enJuego: false,
+		cadena: '',
+		partida: new TennisGame('', ''),
+		nombreJugador1: '',
+		nombreJugador2: ''
+	};
 
 
-    return (
-      <div className="vh-100 display-flex-row justify-content-center color-fondo--azul-claro">
-        <div className="display-flex-column justify-content-center align-items-center margin-top-10-percent">
-          <div className="display-flex-row justify-content-center">
-            <h1>TENNIS GAME</h1>
-          </div>
-          <div id="divJugadores" className="display-flex-row justify-content-space-around margin-vertical-small">
-            { this.state.partida && 
-            <DivJugadores 
-              status={this.state.onGame}
-              game={this.state.partida}
-              numeroJugador={1}
-              onPrint={this.setResultados}
-              onChange={this.setNombre1} />
-            }
+	iniciarApp = () => {
+		if (!this.state.enJuego) {
+			// Se crea el Juego y los Jugadores con un nombre por defecto en caso de que estén vacíos. 
+			const nombre1:string = this.state.partida.getNombreJugador1();
+			const nombre2:string = this.state.partida.getNombreJugador2();
+			
+			this.setState({nombreJugador1: nombre1});
+			this.setState({nombreJugador2: nombre2});
+			this.setState({partida: new TennisGame(nombre1, nombre2)});
+			this.resetResultados();
+		}
 
-            { this.state.onGame && (<DivResultados resultados={this.state.cadena}></DivResultados>) }
+		this.setState({ enJuego: !this.state.enJuego });
+	}
+	
+	render() {
 
-            { this.state.partida && 
-            <DivJugadores 
-              status={this.state.onGame}
-              game={this.state.partida}
-              numeroJugador={2}
-              onPrint={this.setResultados}
-              onChange={this.setNombre2} />
-            }
-          </div>
-          <div className="display-flex-row justify-content-center">
-            <button className="width-medium" onClick={this.iniciarApp}>{this.state.onGame ? ('New Game') : ('Play!')}</button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+		return (
+		<div className="vh-100 display-flex-row justify-content-center color-fondo--azul-claro">
+			<div className="display-flex-column justify-content-center align-items-center margin-top-10-percent">
+			<div className="display-flex-row justify-content-center">
+				<h1>TENNIS GAME</h1>
+			</div>
+			<div id="divJugadores" className="display-flex-row justify-content-space-around margin-vertical-small">
+				{ this.state.partida && 
+					<DivJugadores 
+						status={this.state.enJuego}
+						game={this.state.partida}
+						nombreJugador={this.state.nombreJugador1}
+						numeroJugador={1}
+						onPrint={this.setResultados}
+						onChange={this.setNombre1} />
+				}
 
-  setResultados = (score:string) => {
-    let str: string = this.state.cadena;
-    this.setState({cadena: str + "<p>" + score + "</p>"});
-  }
+				{ this.state.enJuego && (<DivResultados resultados={this.state.cadena}></DivResultados>) }
 
-  resetResultados = () => {
-    this.setState({cadena: '<p>love-love</p>'});
-  }
+				{ this.state.partida && 
+					<DivJugadores 
+						status={this.state.enJuego}
+						game={this.state.partida}
+						nombreJugador={this.state.nombreJugador2}
+						numeroJugador={2}
+						onPrint={this.setResultados}
+						onChange={this.setNombre2} />
+				}
+			</div>
+			<div className="display-flex-row justify-content-center">
+				<button className="width-medium" onClick={this.iniciarApp}>{this.state.enJuego ? ('New Game') : ('Play!')}</button>
+			</div>
+			</div>
+		</div>
+		);
+	}
 
-  setNombre1 = (nombre: string) => {
-    this.state.partida.setNombreJugador(1, nombre);
-    this.setState({partida: this.state.partida});
-  }
+	setResultados = (score:string) => {
+		let str: string = this.state.cadena;
+		this.setState({cadena: str + "<p>" + score + "</p>"});
+	}
 
-  setNombre2 = (nombre: string) => {
-    this.state.partida.setNombreJugador(2, nombre);
-    this.setState({partida: this.state.partida});
-  }
+	resetResultados = () => {
+		this.setState({cadena: '<p>love-love</p>'});
+	}
+
+	setNombre1 = (nombre: string) => {
+		this.setState({partida: new TennisGame(nombre, this.state.nombreJugador2)});
+	}
+
+	setNombre2 = (nombre: string) => {
+		this.setState({partida: new TennisGame(this.state.nombreJugador1, nombre)});
+	}
 
 }
 
 interface Resultados {
-  resultados: string;
+  	resultados: string;
 }
 const DivResultados:React.SFC<Resultados> = ({resultados}) => 
-  <div 
-    id="divResultados" 
-    className="display-flex-column align-items-center" 
-    dangerouslySetInnerHTML={{ __html: resultados }} 
-  />;
+	<div 
+		id="divResultados" 
+		className="display-flex-column align-items-center" 
+		dangerouslySetInnerHTML={{ __html: resultados }} 
+	/>;
 
 export default App;

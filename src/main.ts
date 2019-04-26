@@ -1,4 +1,4 @@
-import TennisGame from './TennisGameOld';
+import TennisGame from './TennisGameOldd';
 /* 
  * Aplicación de Tennis
  * Crea la app Juego que creará los dos jugadores.
