@@ -42,6 +42,7 @@ export class TennisGame {
   }
 
   public wonPoint(nombreJugador: string) {
+    /* Precondiciones */
     if (this.ganador !== null) {
       return;
     }
@@ -51,78 +52,84 @@ export class TennisGame {
     }
 
     if (nombreJugador === this.nombreJugador1) {
+      this.wonPointJugador1();
+    } else if (nombreJugador === this.nombreJugador2) {
+      this.wonPointJugador2();
+    }
+  }
 
-      switch (this.puntuacionJugador1) {
-          
-        case Puntuacion.love:
-          this.puntuacionJugador1 = Puntuacion.fiveteen;
-          break;
+  private wonPointJugador1() {
+    switch (this.puntuacionJugador1) {
+      case Puntuacion.love:
+        this.puntuacionJugador1 = Puntuacion.fiveteen;
+        break;
 
-        case Puntuacion.fiveteen:
-          this.puntuacionJugador1 = Puntuacion.thirty;
-          break;
+      case Puntuacion.fiveteen:
+        this.puntuacionJugador1 = Puntuacion.thirty;
+        break;
 
-        case Puntuacion.thirty:
-          this.puntuacionJugador1 = Puntuacion.forty;
-          if (this.puntuacionJugador2 === Puntuacion.forty) {
-            this.puntuacionJugador1 = Puntuacion.deuce;
-            this.puntuacionJugador2 = Puntuacion.deuce;
-          }
-          break;
+      case Puntuacion.thirty:
+        this.puntuacionJugador1 = Puntuacion.forty;
+        if (this.puntuacionJugador2 === Puntuacion.forty) {
+          this.puntuacionJugador1 = Puntuacion.deuce;
+          this.puntuacionJugador2 = Puntuacion.deuce;
+        }
+        break;
 
-        case Puntuacion.forty:
-          if (this.puntuacionJugador2 === Puntuacion.ventaja) {
-            this.puntuacionJugador1 = Puntuacion.deuce;
-            this.puntuacionJugador2 = Puntuacion.deuce;
-          } else {
-            this.puntuacionJugador1 = Puntuacion.winner;
-            this.ganador = this.nombreJugador1;
-          }
-          break;
-
-        case Puntuacion.deuce:
-          this.puntuacionJugador1 = Puntuacion.ventaja;
-          this.puntuacionJugador2 = Puntuacion.forty;
-          break;
-
-        case Puntuacion.ventaja:
+      case Puntuacion.forty:
+        if (this.puntuacionJugador2 === Puntuacion.ventaja) {
+          this.puntuacionJugador1 = Puntuacion.deuce;
+          this.puntuacionJugador2 = Puntuacion.deuce;
+        } else {
           this.puntuacionJugador1 = Puntuacion.winner;
           this.ganador = this.nombreJugador1;
-          break;
-      }
-    } else if (nombreJugador === this.nombreJugador2) {
-      switch (this.puntuacionJugador2) {
-        case Puntuacion.love:
-          this.puntuacionJugador2 = Puntuacion.fiveteen;
-          break;
-        case Puntuacion.fiveteen:
-          this.puntuacionJugador2 = Puntuacion.thirty;
-          break;
-        case Puntuacion.thirty:
-          this.puntuacionJugador2 = Puntuacion.forty;
-          if (this.puntuacionJugador1 === Puntuacion.forty) {
-            this.puntuacionJugador1 = Puntuacion.deuce;
-            this.puntuacionJugador2 = Puntuacion.deuce;
-          }
-          break;
-        case Puntuacion.forty:
-          if (this.puntuacionJugador1 === Puntuacion.ventaja) {
-            this.puntuacionJugador2 = Puntuacion.deuce;
-            this.puntuacionJugador1 = Puntuacion.deuce;
-          } else {
-            this.puntuacionJugador2 = Puntuacion.winner;
-            this.ganador = this.nombreJugador2;
-          }
-          break;
-        case Puntuacion.deuce:
-          this.puntuacionJugador2 = Puntuacion.ventaja;
-          this.puntuacionJugador1 = Puntuacion.forty;
-          break;
-        case Puntuacion.ventaja:
+        }
+        break;
+
+      case Puntuacion.deuce:
+        this.puntuacionJugador1 = Puntuacion.ventaja;
+        this.puntuacionJugador2 = Puntuacion.forty;
+        break;
+
+      case Puntuacion.ventaja:
+        this.puntuacionJugador1 = Puntuacion.winner;
+        this.ganador = this.nombreJugador1;
+        break;
+    }
+  }
+
+  private wonPointJugador2() {
+    switch (this.puntuacionJugador2) {
+      case Puntuacion.love:
+        this.puntuacionJugador2 = Puntuacion.fiveteen;
+        break;
+      case Puntuacion.fiveteen:
+        this.puntuacionJugador2 = Puntuacion.thirty;
+        break;
+      case Puntuacion.thirty:
+        this.puntuacionJugador2 = Puntuacion.forty;
+        if (this.puntuacionJugador1 === Puntuacion.forty) {
+          this.puntuacionJugador1 = Puntuacion.deuce;
+          this.puntuacionJugador2 = Puntuacion.deuce;
+        }
+        break;
+      case Puntuacion.forty:
+        if (this.puntuacionJugador1 === Puntuacion.ventaja) {
+          this.puntuacionJugador2 = Puntuacion.deuce;
+          this.puntuacionJugador1 = Puntuacion.deuce;
+        } else {
           this.puntuacionJugador2 = Puntuacion.winner;
           this.ganador = this.nombreJugador2;
-          break;
-      }
+        }
+        break;
+      case Puntuacion.deuce:
+        this.puntuacionJugador2 = Puntuacion.ventaja;
+        this.puntuacionJugador1 = Puntuacion.forty;
+        break;
+      case Puntuacion.ventaja:
+        this.puntuacionJugador2 = Puntuacion.winner;
+        this.ganador = this.nombreJugador2;
+        break;
     }
   }
 
