@@ -335,22 +335,25 @@ describe('DADO un partido nuevo', function() {
         expect(score).toBe('Win Jugador1!!!');
     })
     
+    
     describe("DADO el partido tiene un ganador", () => {
         // que el partido ganador
         const marcador = 'Win Jugador1!!!';
         beforeEach(() => {
-            game.wonPoint('Jugador2');
-            game.wonPoint('Jugador2');
-            game.wonPoint('Jugador2');
-            game.wonPoint('Jugador1');
-            game.wonPoint('Jugador1');
-            game.wonPoint('Jugador1');
-            game.wonPoint('Jugador1');
-            game.wonPoint('Jugador1');
+            game.wonPoint('Jugador2');  // 0-15
+            game.wonPoint('Jugador2');  // 0-30
+            game.wonPoint('Jugador2');  // 0-40
+            game.wonPoint('Jugador1');  // 15-40
+            game.wonPoint('Jugador1');  // 30-40
+            game.wonPoint('Jugador1');  // deuce
+            game.wonPoint('Jugador1');  // ventaja-40
+            game.wonPoint('Jugador1');  // win Jugador1
         })
 
         it('CUANDO intento apuntar un punto a un jugador ENTONCES no se altera el marcado', () => {
             // Act: intentar marcar un punto
+            game.wonPoint('Jugador2');
+            game.wonPoint('Jugador2');
             game.wonPoint('Jugador2');
 
             // Assert: verficar que el marcador no ha sido alterado

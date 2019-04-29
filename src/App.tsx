@@ -10,6 +10,7 @@ interface State {
 	partida: TennisGame;
 	nombreJugador1: string;
 	nombreJugador2: string;
+	//hayGanador: boolean;
 }
 
 class App extends React.Component<{}, State> {
@@ -19,7 +20,8 @@ class App extends React.Component<{}, State> {
 		cadena: '',
 		partida: new TennisGame('', ''),
 		nombreJugador1: '',
-		nombreJugador2: ''
+		nombreJugador2: '',
+		//hayGanador: false
 	};
 
 
@@ -51,6 +53,7 @@ class App extends React.Component<{}, State> {
 					<DivJugadores 
 						status={this.state.enJuego}
 						game={this.state.partida}
+						//hayGanador={this.state.hayGanador}
 						nombreJugador={this.state.nombreJugador1}
 						numeroJugador={1}
 						onPrint={this.setResultados}
@@ -63,6 +66,7 @@ class App extends React.Component<{}, State> {
 					<DivJugadores 
 						status={this.state.enJuego}
 						game={this.state.partida}
+						//hayGanador={this.state.hayGanador}
 						nombreJugador={this.state.nombreJugador2}
 						numeroJugador={2}
 						onPrint={this.setResultados}

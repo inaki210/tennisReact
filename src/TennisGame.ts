@@ -1,4 +1,3 @@
-//type Puntuacion = 15 | 30 | 40 | 'ventaja' | ganador?
 
 enum Puntuacion {
   love,
@@ -9,33 +8,39 @@ enum Puntuacion {
   ventaja,
   winner
 }
-/*
-let puntuacion: Puntuacion
-puntuacion = Puntuacion.love;
-*/
 
-/*
- * Posée dos clases Jugador
- * Controla cuando los dos jugadores tengan puntuación igual.
- */
+interface Jugador {
+  nombre: string;
+  puntuacion: Puntuacion;
+}
+
 export class TennisGame {
+  private jugador1: Jugador;
+  private jugador2: Jugador;
+/*
   private nombreJugador1: string;
   private nombreJugador2: string;
   private puntuacionJugador1: Puntuacion;
   private puntuacionJugador2: Puntuacion;
-
+*/
   constructor(nombreJugador1: string, nombreJugador2: string) {
+/** 
     this.nombreJugador1 = nombreJugador1;
     this.nombreJugador2 = nombreJugador2;
     this.puntuacionJugador1 = Puntuacion.love;
     this.puntuacionJugador2 = Puntuacion.love;
+*/
+    this.jugador1 = {nombre: nombreJugador1, puntuacion: Puntuacion.love};
+    this.jugador2 = {nombre: nombreJugador2, puntuacion: Puntuacion.love}
+
   }
 
   public getNombreJugador1() {
-    return this.nombreJugador1;
+    return this.jugador1.nombre;
   }
+
   public getNombreJugador2() {
-    return this.nombreJugador2;
+    return this.jugador2.nombre;
   }
 
   public wonPoint(nombreAnotador: string) {
@@ -44,29 +49,37 @@ export class TennisGame {
       return;
     }
 
-    if (nombreAnotador === this.nombreJugador1) {
+    if (nombreAnotador === this.jugador1.nombre) {
+      
       const {
         puntuacionAnotador,
         puntuacionOtroJugador
       } = this.wonPointJugador({
-        puntuacionAnotador: this.puntuacionJugador1,
-        puntuacionOtroJugador: this.puntuacionJugador2
+        puntuacionAnotador: this.jugador1.puntuacion,
+        puntuacionOtroJugador: this.jugador2.puntuacion
       });
-
+/*
       this.puntuacionJugador1 = puntuacionAnotador;
       this.puntuacionJugador2 = puntuacionOtroJugador;
-      
-    } else if (nombreAnotador === this.nombreJugador2) {
+*/
+      /* Actualización  */
+      this.jugador1.puntuacion = puntuacionAnotador;
+      this.jugador2.puntuacion = puntuacionOtroJugador;
+
+    } else if (nombreAnotador === this.jugador2.nombre) {
       const {
         puntuacionAnotador,
         puntuacionOtroJugador
       } = this.wonPointJugador({
-        puntuacionAnotador: this.puntuacionJugador2,
-        puntuacionOtroJugador: this.puntuacionJugador1
+        puntuacionAnotador: this.jugador2.puntuacion,
+        puntuacionOtroJugador: this.jugador1.puntuacion
       });
-
+/*
       this.puntuacionJugador2 = puntuacionAnotador;
       this.puntuacionJugador1 = puntuacionOtroJugador;
+*/
+      this.jugador2.puntuacion = puntuacionAnotador;
+      this.jugador1.puntuacion = puntuacionOtroJugador;
     }
   }
 
@@ -116,6 +129,7 @@ export class TennisGame {
   }
 
   public getScore(): string {
+    /*
     if (this.puntuacionJugador1 === Puntuacion.winner) {
       return `Win ${this.nombreJugador1}!!!`;
     }
@@ -141,6 +155,46 @@ export class TennisGame {
     return `${Puntuacion[this.puntuacionJugador1]} - ${
       Puntuacion[this.puntuacionJugador2]
     }`;
+    */
+    if (this.jugador1.puntuacion === Puntuacion.winner) {
+      return `Win ${this.jugador1.nombre}!!!`;
+    }
+    if (this.jugador2.puntuacion === Puntuacion.winner) {
+      return `Win ${this.jugador2.nombre}!!!`;
+    }
+
+    if (this.jugador1.puntuacion === this.jugador2.puntuacion) {
+      if (this.jugador1.puntuacion === Puntuacion.deuce) {
+        return `Deuce`;
+      }
+      return `${Puntuacion[this.jugador1.puntuacion]} All`;
+    }
+/*
+    if (this.jugador1.puntuacion === Puntuacion.ventaja) {
+      return `Ventaja ${this.jugador1.nombre}`;
+    }
+
+    if (this.jugador2.puntuacion === Puntuacion.ventaja) {
+      return `Ventaja ${this.jugador2.nombre}`;
+    }
+*/
+    if (this.jugador1.puntuacion === Puntuacion.ventaja) {
+      return this.ventaja(this.jugador1.nombre);
+    }
+
+    if (this.jugador2.puntuacion === Puntuacion.ventaja) {
+      return this.ventaja(this.jugador2.nombre);
+    }
+
+    return `${Puntuacion[this.jugador1.puntuacion]} - ${
+      Puntuacion[this.jugador2.puntuacion]}`;
   }
+
+
+  private ventaja(nombre:string):string {
+    return `Ventaja ${nombre}`;
+  }
+
+
 }
 export default TennisGame;

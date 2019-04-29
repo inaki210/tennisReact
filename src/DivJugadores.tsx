@@ -5,7 +5,7 @@ import './estilos.scss';
 interface Props {
     status: boolean;
     game: TennisGame;
-
+    //hayGanador: boolean;
     nombreJugador: string;
     numeroJugador: number;
     onPrint: (cadena: string) => void;
@@ -30,6 +30,11 @@ class DivJugadores extends React.Component<Props> {
         return 'Anon';
     }*/
 
+    state = {
+        ganador: false,
+    };
+
+
     anotarPunto = (nombreJugador:string) => {
         this.props.game.wonPoint(nombreJugador);
     }
@@ -40,13 +45,22 @@ class DivJugadores extends React.Component<Props> {
 
     imprimirResultado() {
         if (this.props.status) {
-            this.props.onPrint(this.props.game.getScore());
+            const puntuacion = this.props.game.getScore();
+            this.props.onPrint(puntuacion);
+            // CUANDO se haya impreso una puntuación con ganador -> se desabilitan los botones.
+            const pos = puntuacion.indexOf(`Win`);
+            if (pos === 0) {
+                //this.setState(ganador: true);
+                this.state.ganador = true;
+                //this.props.hayGanador = true;
+            }
         }
     }
    
     
     render() {
-        const { status, numeroJugador } = this.props;
+        const { status, numeroJugador/*, hayGanador*/ } = this.props;
+        const ganador = this.state.ganador;
 
         return (
             <div className="margin-horizontal-small display-flex-column align-items-center">
@@ -54,7 +68,7 @@ class DivJugadores extends React.Component<Props> {
                     { status ? (this.props.nombreJugador) : ("Player" + numeroJugador) }
                 </h4>
                 { status ? (
-                    <button onClick={() => {this.props.game.wonPoint(this.props.nombreJugador), this.imprimirResultado()}} disabled={!!this.props.game.ganador}>Won point</button>
+                    <button onClick={() => {this.props.game.wonPoint(this.props.nombreJugador), this.imprimirResultado()}} disabled={!!ganador}>Won point</button>
                 ) : (
                     <TxtJugador nombreJugador={this.props.nombreJugador} numero={numeroJugador} onChange={this.onChange} />
                 )}
