@@ -1,113 +1,153 @@
-import React from 'react';
-import TennisGame from './TennisGame';
-import DivJugadores from './DivJugadores';
-import './estilos.scss';
+import React, { InputHTMLAttributes } from 'react'
+import TennisGame from './TennisGame'
+import './estilos.scss'
+import VistaEnJuego from './VistaEnJuego'
 
-
+let tennisGame: TennisGame
 interface State {
-	enJuego: boolean;
-	cadena: string;
-	partida: TennisGame;
-	nombreJugador1: string;
-	nombreJugador2: string;
-	//hayGanador: boolean;
+  enJuego: boolean
+  historicoMarcador: string[]
+  nombreJugador1: string
+  nombreJugador2: string
 }
 
 class App extends React.Component<{}, State> {
+  state: State = {
+    enJuego: false,
+    nombreJugador1: '',
+    nombreJugador2: '',
+    historicoMarcador: [],
+  }
 
-	state: State = { 
-		enJuego: false,
-		cadena: '',
-		partida: new TennisGame('', ''),
-		nombreJugador1: '',
-		nombreJugador2: '',
-		//hayGanador: false
-	};
+  iniciarPartida = () => {
+    const { nombreJugador1, nombreJugador2 } = this.state
 
+    tennisGame = new TennisGame(nombreJugador1, nombreJugador2)
 
-	iniciarApp = () => {
-		if (!this.state.enJuego) {
-			// Se crea el Juego y los Jugadores con un nombre por defecto en caso de que estén vacíos. 
-			const nombre1:string = this.state.partida.getNombreJugador1();
-			const nombre2:string = this.state.partida.getNombreJugador2();
-			
-			this.setState({nombreJugador1: nombre1});
-			this.setState({nombreJugador2: nombre2});
-			this.setState({partida: new TennisGame(nombre1, nombre2)});
-			this.resetResultados();
-		}
+    this.setState({ enJuego: true, historicoMarcador: [] })
+  }
 
-		this.setState({ enJuego: !this.state.enJuego });
-	}
-	
-	render() {
+  handleNewGame = () => {
+    this.setState({ enJuego: false, nombreJugador1: '', nombreJugador2: '' })
+  }
 
-		return (
-		<div className="vh-100 display-flex-row justify-content-center color-fondo--azul-claro">
-			<div className="display-flex-column justify-content-center align-items-center margin-top-10-percent">
-			<div className="display-flex-row justify-content-center">
-				<h1>TENNIS GAME</h1>
-			</div>
-			<div id="divJugadores" className="display-flex-row justify-content-space-around margin-vertical-small">
-				{ this.state.partida && 
-					<DivJugadores 
-						status={this.state.enJuego}
-						game={this.state.partida}
-						//hayGanador={this.state.hayGanador}
-						nombreJugador={this.state.nombreJugador1}
-						numeroJugador={1}
-						onPrint={this.setResultados}
-						onChange={this.setNombre1} />
-				}
+  handleChangeNombreJugador1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ nombreJugador1: event.target.value })
+  }
 
-				{ this.state.enJuego && (<DivResultados resultados={this.state.cadena}></DivResultados>) }
+  handleChangeNombreJugador2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState({ nombreJugador2: event.target.value })
+  }
 
-				{ this.state.partida && 
-					<DivJugadores 
-						status={this.state.enJuego}
-						game={this.state.partida}
-						//hayGanador={this.state.hayGanador}
-						nombreJugador={this.state.nombreJugador2}
-						numeroJugador={2}
-						onPrint={this.setResultados}
-						onChange={this.setNombre2} />
-				}
-			</div>
-			<div className="display-flex-row justify-content-center">
-				<button className="width-medium" onClick={this.iniciarApp}>{this.state.enJuego ? ('New Game') : ('Play!')}</button>
-			</div>
-			</div>
-		</div>
-		);
-	}
+  handleJugador1WonPoint = () => {
+    tennisGame.wonPoint(this.state.nombreJugador1)
+    const currentScore = tennisGame.getScore()
+    this.setState(oldState => ({
+      historicoMarcador: [...oldState.historicoMarcador, currentScore],
+    }))
+  }
 
-	setResultados = (score:string) => {
-		let str: string = this.state.cadena;
-		this.setState({cadena: str + "<p>" + score + "</p>"});
-	}
+  handleJugador2WonPoint = () => {
+    tennisGame.wonPoint(this.state.nombreJugador2)
+    const currentScore = tennisGame.getScore()
+    this.setState(oldState => ({
+      historicoMarcador: [...oldState.historicoMarcador, currentScore],
+    }))
+  }
 
-	resetResultados = () => {
-		this.setState({cadena: '<p>love-love</p>'});
-	}
+  handleJugadorWonPoint = (nombreJugador: string) => {
+    tennisGame.wonPoint(nombreJugador)
+    const currentScore = tennisGame.getScore()
+    this.setState(oldState => ({
+      historicoMarcador: [...oldState.historicoMarcador, currentScore],
+    }))
+  }
 
-	setNombre1 = (nombre: string) => {
-		this.setState({partida: new TennisGame(nombre, this.state.nombreJugador2)});
-	}
+  render() {
+    const {
+      enJuego,
+      nombreJugador1,
+      nombreJugador2,
+      historicoMarcador,
+    } = this.state
 
-	setNombre2 = (nombre: string) => {
-		this.setState({partida: new TennisGame(this.state.nombreJugador1, nombre)});
-	}
-
+    if (enJuego) {
+      return (
+        <VistaEnJuego
+          historicoMarcador={historicoMarcador}
+          nombreJugador1={nombreJugador1}
+          nombreJugador2={nombreJugador2}
+          onNewGame={this.handleNewGame}
+          onJugador1WonPoint={this.handleJugador1WonPoint}
+          onJugador2WonPoint={this.handleJugador2WonPoint}
+        />
+      )
+    }
+    return (
+      <VistaInicio
+        onChangeNombreJugador1={this.handleChangeNombreJugador1}
+        onChangeNombreJugador2={this.handleChangeNombreJugador2}
+        nombreJugador1={nombreJugador1}
+        nombreJugador2={nombreJugador2}
+        onIniciarPartida={this.iniciarPartida}
+      />
+    )
+  }
 }
 
-interface Resultados {
-  	resultados: string;
+interface VistaInicioProps {
+  onChangeNombreJugador1: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChangeNombreJugador2: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onIniciarPartida: () => void
+  nombreJugador1: string
+  nombreJugador2: string
 }
-const DivResultados:React.SFC<Resultados> = ({resultados}) => 
-	<div 
-		id="divResultados" 
-		className="display-flex-column align-items-center" 
-		dangerouslySetInnerHTML={{ __html: resultados }} 
-	/>;
 
-export default App;
+const VistaInicio: React.SFC<VistaInicioProps> = ({
+  onChangeNombreJugador1,
+  onChangeNombreJugador2,
+  onIniciarPartida,
+  nombreJugador1,
+  nombreJugador2,
+}) => (
+  <div className="vh-100 display-flex-row justify-content-center color-fondo--azul-claro">
+    <div className="display-flex-column justify-content-center align-items-center margin-top-10-percent">
+      <div className="display-flex-row justify-content-center">
+        <h1>TENNIS GAME</h1>
+      </div>
+
+      <div
+        id="divJugadores"
+        className="display-flex-row justify-content-space-around margin-vertical-small"
+      >
+        <div className="margin-horizontal-small display-flex-column align-items-center">
+          <h4 id="lblPlayer1">Player1</h4>
+          <input
+            type="text"
+            placeholder="Nombre jugador 1"
+            value={nombreJugador1}
+            onChange={onChangeNombreJugador1}
+          />
+        </div>
+
+        <div className="margin-horizontal-small display-flex-column align-items-center">
+          <h4 id="lblPlayer2">Player2</h4>
+          <input
+            type="text"
+            placeholder="Nombre jugador 2"
+            value={nombreJugador2}
+            onChange={onChangeNombreJugador2}
+          />
+        </div>
+      </div>
+
+      <div className="display-flex-row justify-content-center">
+        <button className="width-medium" onClick={onIniciarPartida}>
+          Play!
+        </button>
+      </div>
+    </div>
+  </div>
+)
+
+export default App

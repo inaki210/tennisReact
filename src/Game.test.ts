@@ -8,6 +8,21 @@ describe('DADO un partido nuevo', function() {
         game = new TennisGame('Jugador1','Jugador2');
     })
 
+
+    /* NOMBRES */
+    it('CUANDO se crea el objeto TennisGame por defecto ENTONCES el nombre1 es: Jugador1', function() {
+        const nombre1 = game.getNombreJugador1();
+
+        expect(nombre1).toBe('Jugador1');
+    });
+    it('CUANDO se crea el objeto TennisGame por defecto ENTONCES el nombre2 es: Jugador2', function() {
+        const nombre2 = game.getNombreJugador2();
+
+        expect(nombre2).toBe('Jugador2');
+    });
+
+    /* PUNTUACIONES */
+
     // Jugador1 = 0
     it('CUANDO ningún jugador ha marcado ENTONCES resultado es: love All', function() {
         const score = game.getScore();
