@@ -1,7 +1,7 @@
 import React from 'react'
 import TennisGame from './TennisGame'
-import VistaInicio from './VistaInicio'
-import VistaEnJuego from './VistaEnJuego'
+import VistaInicio from './Vistas/VistaInicio'
+import VistaEnJuego from './Vistas/VistaEnJuego'
 
 let tennisGame: TennisGame
 
