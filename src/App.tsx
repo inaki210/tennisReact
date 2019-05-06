@@ -2,6 +2,7 @@ import React from 'react'
 import TennisGame from './TennisGame'
 import VistaInicio from './Vistas/VistaInicio'
 import VistaEnJuego from './Vistas/VistaEnJuego'
+import GameLayout from './components/GameLayout'
 
 let tennisGame: TennisGame
 
@@ -40,23 +41,7 @@ class App extends React.Component<{}, State> {
     this.setState({ nombreJugador2: event.target.value })
   }
 
-  handleJugador1WonPoint = () => {
-    tennisGame.wonPoint(this.state.nombreJugador1)
-    const currentScore = tennisGame.getScore()
-    this.setState(oldState => ({
-      historicoMarcador: [...oldState.historicoMarcador, currentScore],
-    }))
-  }
-
-  handleJugador2WonPoint = () => {
-    tennisGame.wonPoint(this.state.nombreJugador2)
-    const currentScore = tennisGame.getScore()
-    this.setState(oldState => ({
-      historicoMarcador: [...oldState.historicoMarcador, currentScore],
-    }))
-  }
-
-  handleJugadorWonPoint = (nombreJugador: string) => {
+  jugadorWonPoint = (nombreJugador: string) => {
     tennisGame.wonPoint(nombreJugador)
     const currentScore = tennisGame.getScore()
     this.setState(oldState => ({
@@ -72,26 +57,27 @@ class App extends React.Component<{}, State> {
       historicoMarcador,
     } = this.state
 
-    if (enJuego) {
-      return (
-        <VistaEnJuego
-          historicoMarcador={historicoMarcador}
-          nombreJugador1={nombreJugador1}
-          nombreJugador2={nombreJugador2}
-          onNewGame={this.handleNewGame}
-          onJugador1WonPoint={this.handleJugador1WonPoint}
-          onJugador2WonPoint={this.handleJugador2WonPoint}
-        />
-      )
-    }
     return (
-      <VistaInicio
-        onChangeNombreJugador1={this.handleChangeNombreJugador1}
-        onChangeNombreJugador2={this.handleChangeNombreJugador2}
-        nombreJugador1={nombreJugador1}
-        nombreJugador2={nombreJugador2}
-        onIniciarPartida={this.iniciarPartida}
-      />
+      <GameLayout>
+        {enJuego ? (
+          <VistaEnJuego
+            historicoMarcador={historicoMarcador}
+            nombreJugador1={nombreJugador1}
+            nombreJugador2={nombreJugador2}
+            onNewGame={this.handleNewGame}
+            onJugador1WonPoint={() => this.jugadorWonPoint(nombreJugador1)}
+            onJugador2WonPoint={() => this.jugadorWonPoint(nombreJugador2)}
+          />
+        ) : (
+          <VistaInicio
+            onChangeNombreJugador1={this.handleChangeNombreJugador1}
+            onChangeNombreJugador2={this.handleChangeNombreJugador2}
+            nombreJugador1={nombreJugador1}
+            nombreJugador2={nombreJugador2}
+            onIniciarPartida={this.iniciarPartida}
+          />
+        )}
+      </GameLayout>
     )
   }
 }

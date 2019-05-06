@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Fondo,
-  GameContainer,
-  GameTitle,
-  JugadoresContainer,
-  Jugador,
-  ButtonWrapper,
-} from '../StyledComponents'
+import { JugadoresContainer, Jugador, ButtonWrapper } from '../StyledComponents'
 
 interface Props {
   historicoMarcador: string[]
@@ -28,31 +21,25 @@ class VistaEnJuego extends React.Component<Props> {
     } = this.props
 
     return (
-      <Fondo>
-        <GameContainer>
-          <GameTitle>
-            <h1>TENNIS GAME</h1>
-          </GameTitle>
+      <>
+        <JugadoresContainer>
+          <Jugador>
+            <h4>{nombreJugador1}</h4>
+            <button onClick={onJugador1WonPoint}>Won Point</button>
+          </Jugador>
 
-          <JugadoresContainer>
-            <Jugador>
-              <h4>{nombreJugador1}</h4>
-              <button onClick={onJugador1WonPoint}>Won Point</button>
-            </Jugador>
+          <Marcador historicoMarcador={this.props.historicoMarcador} />
 
-            <Marcador historicoMarcador={this.props.historicoMarcador} />
+          <Jugador>
+            <h4>{nombreJugador2}</h4>
+            <button onClick={onJugador2WonPoint}>Won Point</button>
+          </Jugador>
+        </JugadoresContainer>
 
-            <Jugador>
-              <h4>{nombreJugador2}</h4>
-              <button onClick={onJugador2WonPoint}>Won Point</button>
-            </Jugador>
-          </JugadoresContainer>
-
-          <ButtonWrapper>
-            <button onClick={onNewGame}>New Game</button>
-          </ButtonWrapper>
-        </GameContainer>
-      </Fondo>
+        <ButtonWrapper>
+          <button onClick={onNewGame}>New Game</button>
+        </ButtonWrapper>
+      </>
     )
   }
 }

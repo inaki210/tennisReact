@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Fondo,
-  GameContainer,
-  GameTitle,
-  JugadoresContainer,
-  Jugador,
-  ButtonWrapper,
-} from '../StyledComponents'
+import { JugadoresContainer, Jugador, ButtonWrapper } from '../StyledComponents'
 
 interface VistaInicioProps {
   onChangeNombreJugador1: (event: React.ChangeEvent<HTMLInputElement>) => void
@@ -23,39 +16,33 @@ const VistaInicio: React.SFC<VistaInicioProps> = ({
   nombreJugador1,
   nombreJugador2,
 }) => (
-  <Fondo>
-    <GameContainer>
-      <GameTitle>
-        <h1>TENNIS GAME</h1>
-      </GameTitle>
+  <>
+    <JugadoresContainer>
+      <Jugador>
+        <h4>Player1</h4>
+        <input
+          type="text"
+          placeholder="Nombre jugador 1"
+          value={nombreJugador1}
+          onChange={onChangeNombreJugador1}
+        />
+      </Jugador>
 
-      <JugadoresContainer>
-        <Jugador>
-          <h4>Player1</h4>
-          <input
-            type="text"
-            placeholder="Nombre jugador 1"
-            value={nombreJugador1}
-            onChange={onChangeNombreJugador1}
-          />
-        </Jugador>
+      <Jugador>
+        <h4>Player2</h4>
+        <input
+          type="text"
+          placeholder="Nombre jugador 2"
+          value={nombreJugador2}
+          onChange={onChangeNombreJugador2}
+        />
+      </Jugador>
+    </JugadoresContainer>
 
-        <Jugador>
-          <h4>Player2</h4>
-          <input
-            type="text"
-            placeholder="Nombre jugador 2"
-            value={nombreJugador2}
-            onChange={onChangeNombreJugador2}
-          />
-        </Jugador>
-      </JugadoresContainer>
-
-      <ButtonWrapper>
-        <button onClick={onIniciarPartida}>Play!</button>
-      </ButtonWrapper>
-    </GameContainer>
-  </Fondo>
+    <ButtonWrapper>
+      <button onClick={onIniciarPartida}>Play!</button>
+    </ButtonWrapper>
+  </>
 )
 
 export default VistaInicio
