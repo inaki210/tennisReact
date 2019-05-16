@@ -1,5 +1,23 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Qué necesita esta aplicación:
+- Node(LTS)
+- yanr
+
+## Instalar Node(LTS) última versión:
+https://nodejs.org/es/
+
+## Instalar yarn:
+Desde un terminal muevete al directorio de la aplicación y ejecuta lo siguiente:<br>
+`npm i yarn`<br>
+`yarn install`<br>
+(Instalará yarn en ese directorio)
+
+# Ejecutar la aplicación:
+En el terminal hay que ejecutar:<br>
+`yarn start`<br>
+Te abrirá una pestaña del navegador por defecto en la dirección http://localhost:3000/ donde se visualizará la aplicación.
+
 ## Available Scripts
 
 In the project directory, you can run:
